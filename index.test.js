@@ -59,11 +59,11 @@ test("Should update 1st item in DB  ", async()=>{
 const restaurant = await Restaurant.findByPk(1)
 expect(restaurant.name).toEqual("AppleBees");
 })
-test("Should delete 1st item in DB  ", async()=>{
+test("Should delete 4th item in DB", async()=> {
    const response = await request(app).delete("/restaurants/4");
-expect(response.statusCode).toBe(200);
-
-
+   expect(response.statusCode).toBe(200);
+   const deletedRestaurant = await Restaurant.findByPk(4);
+   expect(deletedRestaurant).toBeNull(); 
 });
 
 });
