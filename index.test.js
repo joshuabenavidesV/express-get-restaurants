@@ -65,5 +65,23 @@ test("Should delete 4th item in DB", async()=> {
    const deletedRestaurant = await Restaurant.findByPk(4);
    expect(deletedRestaurant).toBeNull(); 
 });
+// Day 4
+test("should return 400 if name is missing", async () => {
+    const response = await request(app)
+      .post("/restaurants")
+      .send({ location: "New York", cuisine: "Italian" });
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toHaveProperty("error");
+    expect(Array.isArray(response.body.error)).toBe(true);
+  });
 
+  test("should create a restaurant if all fields are valid", async () => {
+    const response = await request(app)
+      .post("/restaurants")
+      .send({ name: "Luigi's", location: "New York", cuisine: "Italian" });
+    expect(response.statusCode).toBe(201);
+    expect(response.body).toHaveProperty("name", "Luigi's");
+    expect(response.body).toHaveProperty("location", "New York");
+    expect(response.body).toHaveProperty("cuisine", "Italian");
+  });
 });
